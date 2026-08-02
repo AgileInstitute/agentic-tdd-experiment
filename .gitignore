@@ -55,5 +55,8 @@ build-iPhoneSimulator/
 # macOS
 .DS_Store
 
+# Sample data (large, contains personal data — not for version control)
+/sample facebook export.zip
+
 # Used by RuboCop. Remote config files pulled in from inherit_from directive.
 # .rubocop-https?--*
