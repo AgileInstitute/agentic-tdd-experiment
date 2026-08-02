@@ -13,7 +13,7 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 - Flow is tracked in `queue.md` at the repo root ("queue" chosen over "backlog" — matches pull-system vocabulary, even though the numbering below isn't strict priority order). Format:
   - Grouped into **themes** (`## N. Theme name`, e.g. "Persistence," "Cloud Deployment," "Backups"), numbered in creation order.
   - Stories numbered within their theme (`### N.M Headline`, e.g. `5.2 Importing photo information`). Numbers are conversational handles for picking and discussing stories, not permanent IDs — reused/reassigned to reflect current priority within a theme as things shift.
-  - Each story: headline, description in NYT-headline format (below), then two checkboxes — `- [ ] started` and `- [ ] done`.
+  - Each story: headline, description in NYT-headline format (below), then two checkboxes — `- [ ] started` and `- [ ] done`. "Done" means we believe all the story's tests are written and passing — refactoring happens continuously as we go, not as a separate gate. Check the box, then commit.
   - No fixed archiving cadence: work stories one at a time, mark done inline as we go; occasionally (not per-story) retrospect together on what's done and cut/paste those entries — same theme/story structure — into `story_archive.md`, created when first needed.
 
 ## Stories
