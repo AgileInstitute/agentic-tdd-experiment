@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Renders the current timeline as a static HTML file for quick manual
+# inspection, without starting a real server.
+#
+# Usage:
+#   bin/preview_timeline                  # render the current dev DB
+#   bin/preview_timeline path/to/export.json  # import a file first, then render
+
+require 'dotenv/load'
+require 'fileutils'
+require 'sequel'
+require_relative '../app/db'
+
+Sequel.extension :migration
+Sequel::Migrator.run(DB, File.expand_path('../db/migrations', __dir__))
+
+require_relative '../app/importer'
+require_relative '../app/app'
+require 'rack/test'
+
+import_path = ARGV[0]
+Importer.import_file(import_path) if import_path
+
+session = Rack::Test::Session.new(Rack::MockSession.new(App))
+session.get '/', {}, 'HTTP_HOST' => 'localhost'
+
+output_path = File.expand_path('../tmp/timeline.html', __dir__)
+FileUtils.mkdir_p(File.dirname(output_path))
+File.write(output_path, session.last_response.body)
+
+puts "Wrote #{output_path}"

@@ -1,6 +1,6 @@
 <h1>Timeline</h1>
 <ul>
   <% @posts.each do |post| %>
-    <li><%= post.text %></li>
+    <li><%= post.posted_at.utc.strftime('%Y-%m-%d') %> &mdash; <%= post.text %></li>
   <% end %>
 </ul>
