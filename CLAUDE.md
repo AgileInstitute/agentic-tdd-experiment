@@ -7,10 +7,15 @@ Ruby, Sinatra (**not** Rails), RSpec 3.13, rack-test, Sequel, SQLite3, dotenv.
 
 ## Hard rules
 - No Rails, ever.
-- No implementation code without a failing spec first — except: symmetric/unambiguous unit test groups (e.g. both branches of a simple boolean method) may be batched with their implementation. Revert to strict one-test-at-a-time when discovering a new interface or facing real branching complexity.
+- No implementation code without a failing spec first.
+- Before starting a story, do a kickoff review together (at least a quick once-over) — ask clarifying questions or raise examples/edge cases you've thought of. After that, you choose the batching strategy for the story (all tests up front vs. smaller test-then-implement loops) based on what's most efficient for it.
 - Big design pivots (e.g. swapping persistence approach) are always flagged to the user before acting, not just done.
 - WIP = 1 story at a time, optionally + 1 architecture spike (brief the user before starting a spike).
 - Stories are "NYT Headline" format: title + description + bulleted **examples** (not "acceptance criteria").
+- When a story, to-do item, or suggestion from the user is unclear or under-specified, use the AskUserQuestion tool rather than guessing or assuming.
+
+## Commit Messages
+Use Conventional Commits prefixes: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`.
 
 ## Commands
 - Run tests: `bundle exec rspec`

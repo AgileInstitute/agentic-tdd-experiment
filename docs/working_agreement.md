@@ -18,10 +18,12 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 
 ## TDD Loop
 
-- Each story gets a visible **to-do list** — both tests and refactorings, not just tests.
-- Default is strict red-green-refactor: no implementation without a failing spec.
-- Claude may batch multiple obviously-symmetric unit tests + implementation together (e.g. both branches of a simple boolean method) without Fake-It/triangulation ceremony, when the implementation shape is already unambiguous. Drops back to strict one-at-a-time when discovering a new interface, or when behavior has real branching complexity — that's where the design pressure of small steps earns its keep.
-- No fixed review cadence. Rob reviews on demand: "show me the new tests," "show me the current design of X."
+- Stories are kept small enough to be the natural unit of work-in-progress.
+- **Story kickoff**: before implementation starts, we review the story together, at least with a quick once-over — Claude can ask clarifying questions or raise examples/edge cases it's thought of; Rob can probe particulars too.
+- Within a story, Claude chooses the batching strategy — write all tests for the story up front then implement, or loop through smaller batches of test-then-implementation — whichever seems more efficient for that particular story.
+- Each story gets a visible **to-do list** — both tests and refactorings, not just tests — kept visible regardless of which batching strategy is used.
+- No implementation without a failing spec.
+- No fixed review cadence beyond the kickoff. Rob also reviews on demand: "show me the new tests," "show me the current design of X."
 
 ## Docs
 
