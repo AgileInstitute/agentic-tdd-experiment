@@ -9,12 +9,16 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 
 ## Flow (Kanban)
 
-- Pull system. WIP = 1 story at a time, optionally + 1 architecture spike running in parallel — Claude briefs the product owner before starting a spike.
-- Flow is tracked in `queue.md` at the repo root ("queue" chosen over "backlog" — matches pull-system vocabulary). **Not yet in place** — pending a story-tracking tool Rob is evaluating separately.
+- Pull system. WIP = 1 story at a time, optionally + 1 architecture spike running in parallel — Claude briefs Rob before starting a spike. Spikes are written into `queue.md` as ordinary stories (headline tagged `(spike)`, e.g. `3.4 Evaluate AWS deployment options (spike)`) since they usually fit within an existing theme; what makes them different is that they can run alongside a story rather than needing their own WIP slot.
+- Flow is tracked in `queue.md` at the repo root ("queue" chosen over "backlog" — matches pull-system vocabulary, even though the numbering below isn't strict priority order). Format:
+  - Grouped into **themes** (`## N. Theme name`, e.g. "Persistence," "Cloud Deployment," "Backups"), numbered in creation order.
+  - Stories numbered within their theme (`### N.M Headline`, e.g. `5.2 Importing photo information`). Numbers are conversational handles for picking and discussing stories, not permanent IDs — reused/reassigned to reflect current priority within a theme as things shift.
+  - Each story: headline, description in NYT-headline format (below), then two checkboxes — `- [ ] started` and `- [ ] done`.
+  - No fixed archiving cadence: work stories one at a time, mark done inline as we go; occasionally (not per-story) retrospect together on what's done and cut/paste those entries — same theme/story structure — into `story_archive.md`, created when first needed.
 
 ## Stories
 
-"NYT Headline" format: a short, memorable title, a description, and bulleted **examples** (deliberately not "acceptance criteria").
+"NYT Headline" format: a short, memorable title, a description, and bulleted **examples** (deliberately not "acceptance criteria"). The headline implies the goal; the description describes the capability. No Connextra template ("As a &lt;persona&gt;, I want &lt;ability&gt;, so that &lt;goal&gt;") — if a specific persona matters, name them directly in the headline or description instead (e.g. "Pete the Power User," "Bob the Beginner").
 
 ## TDD Loop
 
