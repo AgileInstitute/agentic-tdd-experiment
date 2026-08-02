@@ -19,6 +19,7 @@ Observed post shapes:
 - **Link share**: `attachments[].data[].external_context.url`.
 - Other attachment `data` shapes seen: `place` (check-ins), `event`, `fundraiser`, `tags` (people tagged), `text`.
 - `title` is a human-readable sentence Facebook generated (e.g. "Rob Myers updated his status.", "Rob Myers added a new photo."). Present on most non-text-only posts, often absent on plain status updates. Not a reliable type discriminator on its own — use presence/absence of `attachments` and the shape of `data` instead.
+- **Tags**: a `tags` key shows up as a top-level sibling of `data`/`attachments`/`timestamp`/`title` (not nested inside either). Shape is a bare array of name-only objects, e.g. `"tags": [{"name": "Dave Melstrom"}]` — no user ID, no profile URL, nothing linkable. Appears (across several key-combination shapes) on **497 of 8,646 posts**. Since it's free text, there's no way to resolve a tag to an actual account from this export alone, and two tags with the same name aren't guaranteed to be the same person — a real limitation if tags are ever meant to be more than decorative. Future-schema territory, not a gotcha to fix now — neither 1.2 nor 1.3 touches it.
 
 Example text-only post:
 

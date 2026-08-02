@@ -21,7 +21,7 @@ A user can import a single text-only post from a Facebook export and see it on t
   - The imported post appears on the user's timeline
   - A post with only text (no photos/links) imports cleanly
 
-- [ ] started
+- [x] started
 - [ ] done
 
 ### 1.3 Repair mis-encoded characters on import
