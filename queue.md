@@ -36,3 +36,9 @@ Investigate what's needed to make our app speak ActivityPub with the outside wor
 
 - [ ] started
 - [ ] done
+
+## 3. UI
+
+## 4. Host monetization
+
+## 5. Search
