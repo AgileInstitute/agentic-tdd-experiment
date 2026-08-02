@@ -22,7 +22,7 @@ A user can import a single text-only post from a Facebook export and see it on t
   - A post with only text (no photos/links) imports cleanly
 
 - [x] started
-- [ ] done
+- [x] done
 
 ### 1.3 Repair mis-encoded characters on import
 Facebook's export mis-encodes non-ASCII text (UTF-8 bytes double-encoded as Latin-1 before JSON-escaping, e.g. "pâté" comes through as "pÃ¢tÃ©"). We repair this once at import time so every downstream consumer (display, future search, federation) sees correct text.
