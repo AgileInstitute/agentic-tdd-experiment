@@ -34,6 +34,43 @@ Facebook's export mis-encodes non-ASCII text (UTF-8 bytes double-encoded as Lati
 - [x] started
 - [x] done
 
+### 1.4 Import a post with a photo
+A user can import a Facebook post that has an uncaptioned (or captioned) photo attachment and see it on their journal, not have it silently skipped.
+- Examples:
+  - A post with one photo and no caption text imports and displays the photo
+  - A post with one photo and caption text imports both
+  - A post with multiple photos imports all of them
+
+- [ ] started
+- [ ] done
+
+### 1.5 Import a link-share post
+A user can import a Facebook post that's just a shared link (no photo) and see it on their journal.
+- Examples:
+  - A post whose only attachment is `external_context.url` imports with that URL
+  - A link share with added commentary text imports both the text and the link
+
+- [ ] started
+- [ ] done
+
+### 1.6 Import an auto-generated activity post
+Some exported posts have no `data[].post` text and no attachments — the entire content is Facebook's generated narration in `title` (e.g. "Rob Myers recommends The Hobbit."). We import these using `title` as the post text instead of skipping them.
+- Examples:
+  - A post with only a `title` sentence and no `data`/`attachments` imports using that sentence as its text
+  - A post with real `data`/`attachments` content is unaffected — `title` is never preferred over actual content
+
+- [ ] started
+- [ ] done
+
+### 1.7 Prefer backdated_timestamp for post date
+When a post's `data` includes a `backdated_timestamp`, it reflects when the post actually happened, not when it was entered into Facebook — we should display that instead of `timestamp` when it's present.
+- Examples:
+  - A post with both `timestamp` and `backdated_timestamp` displays using `backdated_timestamp`
+  - A post with only `timestamp` displays using `timestamp`, as today
+
+- [ ] started
+- [ ] done
+
 ## 2. Federation
 
 ### 2.1 Get discoverable and exchange one activity with a real server (spike)
@@ -44,7 +81,7 @@ Investigate what's needed to make our app speak ActivityPub with the outside wor
   - Successfully send or receive one signed activity to/from a real ActivityPub server (e.g., a test Mastodon account)
   - Document what we learned: what's required, what's optional, where the friction is
 
-- [ ] started
+- [x] started
 - [ ] done
 
 ## 3. UI
