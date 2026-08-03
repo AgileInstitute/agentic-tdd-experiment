@@ -96,3 +96,15 @@ Investigate what's needed to make our app speak ActivityPub with the outside wor
 ## 4. Host monetization
 
 ## 5. Search
+
+## 6. Journal Entries
+
+### 6.1 Write and publish a text-only journal entry
+A user can compose a new text-only journal entry directly in the app (not imported from Facebook) and see it appear on their timeline.
+- Examples:
+  - A user types "Had a great day today!" into the composer and publishes it; it appears on their journal with that text
+  - Publishing captures the current time as the entry's timestamp
+  - Submitting an empty or whitespace-only entry is rejected, not published
+
+- [ ] started
+- [ ] done
