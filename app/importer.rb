@@ -1,5 +1,6 @@
 require 'json'
 require_relative 'models/post'
+require_relative 'text_repairer'
 
 class Importer
   def self.import(posts)
@@ -7,7 +8,7 @@ class Importer
       next unless text_only?(post)
 
       Post.create(
-        text: post['data'].first['post'],
+        text: TextRepairer.repair(post['data'].first['post']),
         posted_at: Time.at(post['timestamp']),
         created_at: Time.now
       )

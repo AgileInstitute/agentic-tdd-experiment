@@ -49,6 +49,19 @@ RSpec.describe Importer do
       expect(Post.count).to eq(0)
     end
 
+    it 'repairs mis-encoded text on import' do
+      posts = [
+        {
+          'timestamp' => 1224121959,
+          'data' => [{ 'post' => 'pÃ¢tÃ© for lunch' }]
+        }
+      ]
+
+      Importer.import(posts)
+
+      expect(Post.first.text).to eq('pâté for lunch')
+    end
+
     it 'imports multiple posts in one call, each with its own text and timestamp' do
       posts = [
         {
