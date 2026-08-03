@@ -26,6 +26,14 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 - **Story kickoff**: before implementation starts, we review the story together, at least with a quick once-over — Claude can ask clarifying questions or raise examples/edge cases it's thought of; Rob can probe particulars too.
 - Within a story, Claude chooses the batching strategy — write all tests for the story up front then implement, or loop through smaller batches of test-then-implementation — whichever seems more efficient for that particular story.
 - Each story gets a visible **to-do list** — both tests and refactorings, not just tests — kept visible regardless of which batching strategy is used. One idea per line, each mapping to its own spec — don't bundle multiple assertions into one item.
+- **Display cadence** per red-green cycle (worth following closely since sessions may be recorded for demonstration purposes, but it's the default either way):
+  1. Post the to-do list with the next item marked (`->`/`<-` and/or bold).
+  2. Show the new spec(s) as written. Writing more than one at once is fine when they're tight triangulations on the same behavior (e.g. TextRepairer's good text / bad text / good European text / multiple bad-byte cases) — no need to force a single-spec-at-a-time loop.
+  3. Show the RSpec failure output (red).
+  4. Show the implementation as a diff, the same way any other proposed change is shown. Narration can describe what the code does, but the audience is non-technical, so keep it accessible rather than jargon-heavy.
+  5. Show the RSpec all-passing output (green).
+  6. Re-post the to-do list with that item checked off and bolded.
+  Refactors get called out explicitly (their own beat in the cadence) when they happen organically — don't force one into every cycle just to have something to show.
 - No implementation without a failing spec.
 - No fixed review cadence beyond the kickoff. Rob also reviews on demand: "show me the new tests," "show me the current design of X."
 - With Claude Code's `auto` permission mode enabled, Claude proceeds through a story's full red-green loop (edits, running tests, iterating) without pausing for per-step confirmation, as long as changes stay within the repository — everything's recoverable via git. Claude stops and summarizes when the story is complete. This doesn't preclude checking in earlier: Claude can still ask about a story's intent, question whether a spec is right, or suggest a refactoring any time all tests are passing, not only at the story's end. Destructive/irreversible actions (force-push, `git reset --hard`, etc.) are still flagged before acting regardless of permission mode.
