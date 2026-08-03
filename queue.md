@@ -84,7 +84,7 @@ Investigate what's needed to make our app speak ActivityPub with the outside wor
   - [x] Decide where the app will actually run/be reachable from — cloud VM/host vs. local machine + temporary tunnel (ngrok/cloudflared). Rob's old local VM tool is gone/obsolete, needs re-evaluating. **Decision: Fly.io** (persistent-volume-backed VM; Ruby/Sinatra-friendly, cheap hobby tier, handles SQLite persistence via a mounted volume).
   - [ ] Decide on a domain or subdomain for the app's ActivityPub actor identity. Rob has two professional domains (one on SquareSpace, one on Blogger.com) — neither supports app hosting directly, so this likely means a subdomain's DNS pointed elsewhere (a VM or cloud host), not hosting on either platform itself.
   - [ ] Set up a disposable/test Mastodon account (not Rob's primary) and confirm its instance domain
-  - [ ] If using a tunnel: spin it up only for the spike session and tear it down after — no standing exposed port
+  - [x] If using a tunnel: spin it up only for the spike session and tear it down after — no standing exposed port. **N/A** — Fly.io hosting means no tunnel is needed.
   - [ ] Confirm no real secrets/keys get committed — spike-generated keypairs only, gitignored like the export archive was
   - [x] Decide whether the internet-facing portion runs in something isolated (VM/container) vs. directly on Rob's main machine. **Resolved by the Fly.io decision above** — runs on Fly's infrastructure, not Rob's machine.
 
