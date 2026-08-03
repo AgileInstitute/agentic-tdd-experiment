@@ -1,6 +1,6 @@
 # Working Agreement
 
-How we pair on this project — XP and Kanban practices, adapted for a human + Claude Code pairing, revisited as we learn. Last updated 2026-08-01.
+How we pair on this project — XP and Kanban practices, adapted for a human + Claude Code pairing, revisited as we learn. Last updated 2026-08-02.
 
 ## Roles
 
@@ -25,9 +25,10 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 - Stories are kept small enough to be the natural unit of work-in-progress.
 - **Story kickoff**: before implementation starts, we review the story together, at least with a quick once-over — Claude can ask clarifying questions or raise examples/edge cases it's thought of; Rob can probe particulars too.
 - Within a story, Claude chooses the batching strategy — write all tests for the story up front then implement, or loop through smaller batches of test-then-implementation — whichever seems more efficient for that particular story.
-- Each story gets a visible **to-do list** — both tests and refactorings, not just tests — kept visible regardless of which batching strategy is used.
+- Each story gets a visible **to-do list** — both tests and refactorings, not just tests — kept visible regardless of which batching strategy is used. One idea per line, each mapping to its own spec — don't bundle multiple assertions into one item.
 - No implementation without a failing spec.
 - No fixed review cadence beyond the kickoff. Rob also reviews on demand: "show me the new tests," "show me the current design of X."
+- With Claude Code's `auto` permission mode enabled, Claude proceeds through a story's full red-green loop (edits, running tests, iterating) without pausing for per-step confirmation, as long as changes stay within the repository — everything's recoverable via git. Claude stops and summarizes when the story is complete. This doesn't preclude checking in earlier: Claude can still ask about a story's intent, question whether a spec is right, or suggest a refactoring any time all tests are passing, not only at the story's end. Destructive/irreversible actions (force-push, `git reset --hard`, etc.) are still flagged before acting regardless of permission mode.
 
 ## Docs
 
@@ -37,5 +38,6 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 ## Refactoring & Design Review
 
 - Small in-flow refactors happen naturally as part of red-green-refactor.
+- Story to-do lists don't end with a generic "refactor pass" line. Once a story's specs are green, review the resulting code together and surface refactorings from what's actually there.
 - Big design pivots (e.g. swapping persistence approach) are always flagged before acting.
 - Periodic design-smell check-ins even though thorough tests reduce the need: Claude proactively flags when a to-do list starts resembling a previous story's (a signal of possible copy-paste, maybe worth a pattern like Strategy) rather than waiting to be asked.
