@@ -80,6 +80,13 @@ Investigate what's needed to make our app speak ActivityPub with the outside wor
   - The actor document includes inbox/outbox URLs and a public key
   - Successfully send or receive one signed activity to/from a real ActivityPub server (e.g., a test Mastodon account)
   - Document what we learned: what's required, what's optional, where the friction is
+- Spike prep (this reaches the open internet, unlike the Facebook import work — sort out before running any code):
+  - [ ] Decide where the app will actually run/be reachable from — cloud VM/host vs. local machine + temporary tunnel (ngrok/cloudflared). Rob's old local VM tool is gone/obsolete, needs re-evaluating.
+  - [ ] Decide on a domain or subdomain for the app's ActivityPub actor identity. Rob has two professional domains (one on SquareSpace, one on Blogger.com) — neither supports app hosting directly, so this likely means a subdomain's DNS pointed elsewhere (a VM or cloud host), not hosting on either platform itself.
+  - [ ] Set up a disposable/test Mastodon account (not Rob's primary) and confirm its instance domain
+  - [ ] If using a tunnel: spin it up only for the spike session and tear it down after — no standing exposed port
+  - [ ] Confirm no real secrets/keys get committed — spike-generated keypairs only, gitignored like the export archive was
+  - [ ] Decide whether the internet-facing portion runs in something isolated (VM/container) vs. directly on Rob's main machine
 
 - [x] started
 - [ ] done
