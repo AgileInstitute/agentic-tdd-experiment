@@ -31,7 +31,7 @@ Facebook's export mis-encodes non-ASCII text (UTF-8 bytes double-encoded as Lati
   - A post with only plain ASCII text is unaffected by the repair
   - Correctly-encoded text (e.g. from a future export where Facebook has fixed the bug) is left untouched, not mangled by a false-positive "fix"
 
-- [ ] started
+- [x] started
 - [ ] done
 
 ## 2. Federation
