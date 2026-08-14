@@ -71,6 +71,17 @@ When a post's `data` includes a `backdated_timestamp`, it reflects when the post
 - [ ] started
 - [ ] done
 
+### 1.8 Guard imported posts against injected code
+Facebook export content is untrusted input — we neutralize it so nothing in a post's text, captions, or link commentary can execute as script (XSS) or manipulate our database (SQL injection) when imported and later displayed.
+- Examples:
+  - A post whose text contains `<script>alert(1)</script>` imports and displays as inert text, not an executing script
+  - A post whose text contains a SQL injection payload (e.g. `'; DROP TABLE posts; --`) is stored and displayed as literal text, with no effect on the database
+  - Ordinary text containing HTML-special characters (e.g. "5 < 10 && cats > dogs") displays correctly, unmangled by escaping
+  - The same protection applies to photo captions (1.4) and link-share commentary (1.5)
+
+- [ ] started
+- [ ] done
+
 ## 2. Federation
 
 ### 2.1 Get discoverable and exchange one activity with a real server (spike)
