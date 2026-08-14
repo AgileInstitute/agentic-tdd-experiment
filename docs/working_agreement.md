@@ -9,8 +9,8 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 
 ## Flow (Kanban)
 
-- Pull system. WIP = 1 story at a time, optionally + 1 architecture spike running in parallel — Claude briefs Rob before starting a spike. Spikes are written into `queue.md` as ordinary stories (headline tagged `(spike)`, e.g. `3.4 Evaluate AWS deployment options (spike)`) since they usually fit within an existing theme; what makes them different is that they can run alongside a story rather than needing their own WIP slot.
-- Flow is tracked in `queue.md` at the repo root ("queue" chosen over "backlog" — matches pull-system vocabulary, even though the numbering below isn't strict priority order). Format:
+- Pull system. WIP = 1 story at a time, optionally + 1 architecture spike running in parallel — Claude briefs Rob before starting a spike. Spikes are written into `story_map.md` as ordinary stories (headline tagged `(spike)`, e.g. `3.4 Evaluate AWS deployment options (spike)`) since they usually fit within an existing theme; what makes them different is that they can run alongside a story rather than needing their own WIP slot.
+- Flow is tracked in `story_map.md` at the repo root (renamed 2026-08-13 from `queue.md`; not yet a positionally-prioritized story map — no release/priority axis yet, just flat themes/stories — revisit once scope selection for a Minimal Lovable Product matters). Format:
   - Grouped into **themes** (`## N. Theme name`, e.g. "Persistence," "Cloud Deployment," "Backups"), numbered in creation order.
   - Stories numbered within their theme (`### N.M Headline`, e.g. `5.2 Importing photo information`). Numbers are conversational handles for picking and discussing stories, not permanent IDs — reused/reassigned to reflect current priority within a theme as things shift.
   - Each story: headline, description in NYT-headline format (below), then two checkboxes — `- [ ] started` and `- [ ] done`. "Done" means we believe all the story's tests are written and passing — refactoring happens continuously as we go, not as a separate gate. Check the box, then commit.

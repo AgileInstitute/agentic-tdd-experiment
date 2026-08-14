@@ -13,7 +13,7 @@ Ruby, Sinatra (**not** Rails), RSpec 3.13, rack-test, Sequel, SQLite3, dotenv.
 - WIP = 1 story at a time, optionally + 1 architecture spike (brief the user before starting a spike).
 - Stories are "NYT Headline" format: title + description + bulleted **examples** (not "acceptance criteria"). No Connextra template ("As a... I want... so that..."); name a persona directly if one matters.
 - When a story, to-do item, or suggestion from the user is unclear or under-specified, use the AskUserQuestion tool rather than guessing or assuming.
-- Work is tracked in `queue.md` (themes/stories/spikes) and, once retrospected, archived to `story_archive.md`; see `docs/working_agreement.md` for the format.
+- Work is tracked in `story_map.md` (themes/stories/spikes) and, once retrospected, archived to `story_archive.md`; see `docs/working_agreement.md` for the format.
 
 ## Commit Messages
 Use Conventional Commits prefixes: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`.
