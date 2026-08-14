@@ -78,6 +78,8 @@ Facebook export content is untrusted input — we neutralize it so nothing in a 
   - A post whose text contains a SQL injection payload (e.g. `'; DROP TABLE posts; --`) is stored and displayed as literal text, with no effect on the database
   - Ordinary text containing HTML-special characters (e.g. "5 < 10 && cats > dogs") displays correctly, unmangled by escaping
   - The same protection applies to photo captions (1.4) and link-share commentary (1.5)
+- Tasks:
+  - Build the sanitization as a reusable module (not import-path-specific), so it also covers posts composed directly in the app (6.1) rather than only Facebook-imported ones
 
 - [ ] started
 - [ ] done
