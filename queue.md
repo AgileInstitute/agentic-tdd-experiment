@@ -117,6 +117,16 @@ Investigate how to render the app well on phone screens, the way SquareSpace ada
 - [ ] started
 - [ ] done
 
+### 3.2 Make the app installable as a PWA
+Users can install the app to their phone's home screen and launch it in an app-like window (no browser chrome), via a web app manifest and service worker — same web app, no native app needed.
+- Examples:
+  - Visiting the app on a supported mobile browser offers "Add to Home Screen"; launching from that icon opens without the browser's address bar/tabs
+  - The app's icon, name, and theme color (set via the manifest) show correctly when installed
+  - Previously visited pages/assets remain viewable when the phone goes offline, via the service worker's cache
+
+- [ ] started
+- [ ] done
+
 ## 4. Host monetization
 
 ## 5. Search
