@@ -106,6 +106,17 @@ Investigate what's needed to make our app speak ActivityPub with the outside wor
 
 ## 3. UI
 
+### 3.1 Evaluate approaches for smartphone-friendly rendering (spike)
+Investigate how to render the app well on phone screens, the way SquareSpace adapts output for desktop vs. mobile.
+- Examples:
+  - Document the responsive-CSS approach (single HTML output, layout adapts via media queries) and what it requires
+  - Document server-side device-adaptive rendering (different templates/views based on User-Agent) and what gem/library it would need beyond Sinatra
+  - Compare tradeoffs (complexity, consistency, maintainability) between the two
+  - Recommend a direction to build against
+
+- [ ] started
+- [ ] done
+
 ## 4. Host monetization
 
 ## 5. Search
