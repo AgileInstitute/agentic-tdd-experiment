@@ -25,12 +25,15 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 - Stories are kept small enough to be the natural unit of work-in-progress.
 - **Story kickoff**: before implementation starts, we review the story together, at least with a quick once-over — Claude can ask clarifying questions or raise examples/edge cases it's thought of; Rob can probe particulars too.
 - Within a story, Claude chooses the batching strategy — write all tests for the story up front then implement, or loop through smaller batches of test-then-implementation — whichever seems more efficient for that particular story, subject to the cluster cap below.
-- **Triangulation cluster cap**: a batch of tests shown together before implementing (a "cluster") tops out around a half-dozen specs — Rob reviews red before Claude implements. Multiple clusters can chain back-to-back in one pass; a story with more tests than the cap just becomes several clusters rather than one. The cap (currently ~6) is Rob's to move — raised if per-cluster review is slowing things down, lowered if it's getting hard to follow.
+- **Triangulation cluster cap**: a "cluster" is a batch of tests that tightly triangulate the same behavior (e.g. TextRepairer's good text / bad text / good European text / multiple bad-byte cases), shown together before implementing. Clusters follow their natural grouping — never split one just to dodge the cap. The cap is currently a dozen specs:
+  - **At or under the cap**: no pause required. Multiple such clusters can be shown and worked through in one pass without stopping — separate them with clear whitespace so each cluster still reads as distinct.
+  - **Over the cap**: hard gate. Show the whole cluster as written (not truncated), then stop and wait for Rob's explicit go-ahead before implementing — this overrides the auto-mode default of not pausing for per-step confirmation, specifically for this case.
+  - The cap (currently ~12) is Rob's to move — raised if per-cluster review is slowing things down, lowered if it's getting hard to follow.
 - Each story gets a visible **to-do list** — both tests and refactorings, not just tests — kept visible regardless of which batching strategy is used. One idea per line, each mapping to its own spec — don't bundle multiple assertions into one item.
 - **Display cadence** per red-green cycle (worth following closely since sessions may be recorded for demonstration purposes, but it's the default either way):
   1. Post the to-do list with the next item marked (`->`/`<-` and/or bold).
-  2. Show the new spec(s) as written — one Triangulation cluster (see cap above), e.g. TextRepairer's good text / bad text / good European text / multiple bad-byte cases — no need to force a single-spec-at-a-time loop.
-  3. Show the RSpec failure output (red).
+  2. Show the new spec(s) as written — one Triangulation cluster (see cap above) — no need to force a single-spec-at-a-time loop.
+  3. Show the RSpec failure output (red). If the cluster is over the cap, stop here and wait for Rob's go-ahead before continuing to step 4.
   4. Show the implementation as a diff, the same way any other proposed change is shown. Narration can describe what the code does, but the audience is non-technical, so keep it accessible rather than jargon-heavy.
   5. Show the RSpec all-passing output (green).
   6. Re-post the to-do list with that item checked off and bolded.
