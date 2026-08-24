@@ -144,3 +144,36 @@ A user can compose a new text-only journal entry directly in the app (not import
 
 - [ ] started
 - [ ] done
+
+## 7. Backups
+
+### 7.1 Evaluate backup format and scheduling options (spike)
+Investigate how to implement the automated incremental/differential local backups decided in ADR 3, and where/how they'd be produced.
+- Examples:
+  - Document candidate backup formats (full DB dump vs. per-record diff vs. append-only changelog) and their tradeoffs for an incremental scheme
+  - Document where backups are stored (local filesystem path, configurable location) and retention policy options
+  - Document scheduling approaches (cron, in-app background scheduler) suited to a Sinatra app
+  - Recommend a direction to build against
+
+- [ ] started
+- [ ] done
+
+### 7.2 Take an automated incremental backup of a user's data
+A user's data is backed up automatically and incrementally, capturing only what's changed since the last backup rather than a full dump each time.
+- Examples:
+  - A user's first backup captures a full snapshot of their posts
+  - A later backup captures only data changed since the previous backup (new/edited posts), not everything again
+  - Backups run automatically on the configured schedule without manual action
+
+- [ ] started
+- [ ] done
+
+### 7.3 Restore a user's data from local backups
+A user (or the app on their behalf) can reconstruct their data from a full backup plus its chain of incremental backups.
+- Examples:
+  - Restoring from a full backup plus its incremental chain reconstructs all posts as they existed at backup time
+  - Restoring recovers a user's data onto a fresh server after their original home server is gone — the scenario ADR 3 exists to address
+  - Attempting to restore from a corrupted or incomplete backup chain fails clearly rather than silently producing partial data
+
+- [ ] started
+- [ ] done
