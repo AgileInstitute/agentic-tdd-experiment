@@ -51,6 +51,7 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 ## Refactoring & Design Review
 
 - Small in-flow refactors happen naturally as part of red-green-refactor.
+- When a story's refactor touches an existing spec, only its letter (exact values/arguments) may change to reflect implementation growth — its intent (the guarantee it verifies) must still hold. If a story deliberately reverses a prior spec's intent, that's not a refactor touch-up — call it out explicitly as retiring/superseding that spec. Specs that no longer make sense can just be deleted; Rob reviews the deletion in the diff like any other change.
 - Story to-do lists don't end with a generic "refactor pass" line. Once a story's specs are green, review the resulting code together and surface refactorings from what's actually there.
 - Big design pivots (e.g. swapping persistence approach) are always flagged before acting.
 - Periodic design-smell check-ins even though thorough tests reduce the need: Claude proactively flags when a to-do list starts resembling a previous story's (a signal of possible copy-paste, maybe worth a pattern like Strategy) rather than waiting to be asked.
