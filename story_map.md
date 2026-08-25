@@ -86,6 +86,17 @@ Facebook export content is untrusted input — we neutralize it so nothing in a 
 - [ ] started
 - [ ] done
 
+### 1.9 Receive and extract an uploaded Facebook export
+A user's Facebook export archive (a zip, already present on disk — e.g. via a local path a script points at, not yet a web upload form) is extracted to app-controlled storage, giving the importer a real export root to resolve media paths against instead of assuming a pre-unzipped directory exists somewhere.
+- Examples:
+  - Given a valid Facebook export zip, the app extracts it to app-controlled storage and yields the resulting export root path
+  - The importer's entry point receives both the post JSON path and the export root explicitly, rather than deriving one from the other by an assumed directory depth
+  - An archive that isn't a valid Facebook export (corrupt zip, missing `posts/your_posts_1.json`) fails clearly rather than partially extracting
+- Note: a web upload endpoint for the archive itself is out of scope here — this story is just extraction + handing the importer a real root. Upload UI can be its own later story if we need one.
+
+- [ ] started
+- [ ] done
+
 ## 2. Federation
 
 ### 2.1 Get discoverable and exchange one activity with a real server (spike)
