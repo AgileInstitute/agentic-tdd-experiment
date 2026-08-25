@@ -43,10 +43,9 @@ A user can import a Facebook post that has an uncaptioned (or captioned) photo a
   - A post with one photo and caption text imports both
   - A post with multiple photos imports all of them
 - Note: the importer resolves each photo's path against an explicit `export_root` argument (see 1.9), not one it derives itself from the JSON file's location.
-- Known gap (found via exploratory testing 2026-08-25, not yet fixed): a real Facebook album post can bundle multiple photos into a *single* attachment's `data` array (multiple `media` items under one attachment), rather than one photo per attachment. The current "multiple photos" spec only exercises the multiple-attachments shape, so this real shape isn't covered yet and `extract_photos` likely drops all but the first photo in that case.
 
 - [x] started
-- [ ] done
+- [x] done
 
 ### 1.5 Import a link-share post
 A user can import a Facebook post that's just a shared link (no photo) and see it on their journal.

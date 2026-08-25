@@ -130,6 +130,27 @@ RSpec.describe Importer do
         expect(post.photos.map(&:caption)).to eq(%w[First Second])
       end
 
+      it 'imports all photos from a single album attachment, preserving order' do
+        posts = [
+          {
+            'timestamp' => 1229233152,
+            'attachments' => [
+              {
+                'data' => [
+                  { 'media' => { 'uri' => 'posts/media/photo1.jpg', 'description' => 'First' } },
+                  { 'media' => { 'uri' => 'posts/media/photo2.jpg', 'description' => 'Second' } }
+                ]
+              }
+            ]
+          }
+        ]
+
+        Importer.import(posts, export_root: export_root)
+
+        post = Post.first
+        expect(post.photos.map(&:caption)).to eq(%w[First Second])
+      end
+
       it 'copies the photo file into app-controlled storage' do
         posts = [
           {

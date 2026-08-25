@@ -37,15 +37,16 @@ class Importer
     attachments = post['attachments']
     return [] unless attachments.is_a?(Array)
 
-    attachments.filter_map do |attachment|
+    attachments.flat_map do |attachment|
       data_items = attachment['data']
-      next unless data_items.is_a?(Array)
+      next [] unless data_items.is_a?(Array)
 
-      media_item = data_items.find { |item| item['media'] }
-      next unless media_item
+      data_items.filter_map do |item|
+        media = item['media']
+        next unless media
 
-      media = media_item['media']
-      { uri: media['uri'], caption: media['description'] || '' }
+        { uri: media['uri'], caption: media['description'] || '' }
+      end
     end
   end
 
