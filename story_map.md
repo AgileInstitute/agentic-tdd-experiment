@@ -42,6 +42,7 @@ A user can import a Facebook post that has an uncaptioned (or captioned) photo a
   - A post with one photo and no caption text imports and displays the photo
   - A post with one photo and caption text imports both
   - A post with multiple photos imports all of them
+- Note: the importer resolves each photo's path against an explicit `export_root` argument (see 1.9), not one it derives itself from the JSON file's location.
 
 - [ ] started
 - [ ] done
