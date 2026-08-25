@@ -1,6 +1,8 @@
 ENV['RACK_ENV'] = 'test'
 ENV['DATABASE_URL'] = 'sqlite::memory:'
+ENV['PHOTO_STORAGE_DIR'] = File.expand_path('../tmp/spec_photo_storage', __dir__)
 
+require 'fileutils'
 require 'rack/test'
 require 'sequel'
 require_relative '../app/db'
@@ -12,6 +14,11 @@ require_relative '../app/app'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+
+  config.before(:each) do
+    FileUtils.rm_rf(ENV['PHOTO_STORAGE_DIR'])
+    FileUtils.mkdir_p(ENV['PHOTO_STORAGE_DIR'])
+  end
 
   def app
     App

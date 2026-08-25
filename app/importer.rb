@@ -1,28 +1,64 @@
 require 'json'
+require 'fileutils'
 require_relative 'models/post'
+require_relative 'models/photo'
 require_relative 'text_repairer'
 
 class Importer
-  def self.import(posts)
+  def self.import(posts, export_root: nil)
     posts.each do |post|
-      next unless text_only?(post)
+      text = extract_text(post)
+      photos = extract_photos(post)
+      next if text.empty? && photos.empty?
 
-      Post.create(
-        text: TextRepairer.repair(post['data'].first['post']),
+      created = Post.create(
+        text: text,
         posted_at: Time.at(post['timestamp']),
         created_at: Time.now
       )
+
+      store_photos(created, photos, export_root)
     end
   end
 
-  def self.import_file(path)
-    import(JSON.parse(File.read(path)))
+  def self.import_file(json_path, export_root)
+    import(JSON.parse(File.read(json_path)), export_root: export_root)
   end
 
-  def self.text_only?(post)
-    return false if post['attachments']
-
+  def self.extract_text(post)
     data = post['data']
-    data.is_a?(Array) && data.size == 1 && data.first.keys == ['post']
+    return '' unless data.is_a?(Array)
+
+    entry = data.find { |item| item.key?('post') }
+    entry ? TextRepairer.repair(entry['post']) : ''
   end
+
+  def self.extract_photos(post)
+    attachments = post['attachments']
+    return [] unless attachments.is_a?(Array)
+
+    attachments.filter_map do |attachment|
+      data_items = attachment['data']
+      next unless data_items.is_a?(Array)
+
+      media_item = data_items.find { |item| item['media'] }
+      next unless media_item
+
+      media = media_item['media']
+      { uri: media['uri'], caption: media['description'] || '' }
+    end
+  end
+
+  def self.store_photos(post, photos, export_root)
+    photos.each_with_index do |photo, index|
+      source = File.join(export_root, photo[:uri])
+      destination = File.join(ENV.fetch('PHOTO_STORAGE_DIR'), "#{post.id}-#{index}-#{File.basename(photo[:uri])}")
+      FileUtils.mkdir_p(File.dirname(destination))
+      FileUtils.cp(source, destination)
+
+      Photo.create(post_id: post.id, path: destination, caption: photo[:caption], position: index)
+    end
+  end
+
+  private_class_method :extract_text, :extract_photos, :store_photos
 end

@@ -1,6 +1,16 @@
 <h1>Timeline</h1>
 <ul>
   <% @posts.each do |post| %>
-    <li><%= post.posted_at.utc.strftime('%Y-%m-%d') %> &mdash; <%= post.text %></li>
+    <li>
+      <%= post.posted_at.utc.strftime('%Y-%m-%d') %> &mdash; <%= post.text %>
+      <% post.photos.each do |photo| %>
+        <div>
+          <img src="/photos/<%= File.basename(photo.path) %>" alt="<%= photo.caption %>">
+          <% unless photo.caption.empty? %>
+            <p><%= photo.caption %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </li>
   <% end %>
 </ul>

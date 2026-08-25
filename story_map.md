@@ -45,7 +45,7 @@ A user can import a Facebook post that has an uncaptioned (or captioned) photo a
 - Note: the importer resolves each photo's path against an explicit `export_root` argument (see 1.9), not one it derives itself from the JSON file's location.
 
 - [x] started
-- [ ] done
+- [x] done
 
 ### 1.5 Import a link-share post
 A user can import a Facebook post that's just a shared link (no photo) and see it on their journal.
