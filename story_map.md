@@ -104,6 +104,7 @@ Facebook's "On this day" memory feature re-posts an existing post as a new, inde
   - A memory-repost entry (identified by its `title`) displays with its own re-post text alongside the original post's caption and date
   - The re-post's duplicated photos display once, not as a second unrelated copy of the same album
   - A regular (non-memory) post is unaffected — no `title`-sniffing changes its import path
+- Note: the memory post's displayed date uses its own top-level `timestamp` (the repost/resurfacing time) as today, unaffected by 1.7 — the original post's date only exists as human-readable text buried in the attachment (e.g. "May 16, 2018, 7:53 PM"), not a parseable field, so it's shown as text, not used as `posted_at`.
 
 - [ ] started
 - [ ] done
