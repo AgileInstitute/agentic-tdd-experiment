@@ -1,0 +1,103 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Renders the exploratory-testing timeline preview as a fully standalone
+# HTML file: the committed spec fixture posts PLUS any posts in
+# spec/fixtures/exploratory/posts.json, with photos hydrated from
+# spec/fixtures/exploratory/media/ and inlined as base64 data URIs.
+#
+# spec/fixtures/exploratory/ is gitignored on purpose -- it holds real
+# personal posts and photos, and it is the *cumulative* exploratory sample
+# (add to it as stories introduce new post shapes). A fresh clone has none;
+# populate it locally:
+#
+#   spec/fixtures/exploratory/
+#     posts.json        # a JSON array of raw export post objects
+#     media/            # the referenced image files, by basename
+#                       # (these also override the committed fixture's
+#                       #  placeholder photo bytes)
+#
+# With no exploratory/ folder present, this still renders the committed
+# fixture alone (photos will be placeholder bytes).
+#
+# Usage:  bundle exec ruby bin/exploratory_preview
+
+require 'dotenv/load'
+require 'fileutils'
+require 'json'
+require 'base64'
+require 'tmpdir'
+require 'sequel'
+
+ROOT         = File.expand_path('..', __dir__)
+FIXTURE_ROOT = File.join(ROOT, 'spec/fixtures/export_root')
+EXPLORATORY  = File.join(ROOT, 'spec/fixtures/exploratory')
+
+# The exploratory preview is always an isolated, throwaway render.
+ENV['DATABASE_URL']    = 'sqlite::memory:'
+ENV['PHOTO_STORAGE_DIR'] = Dir.mktmpdir('exploratory-photos')
+
+require_relative '../app/db'
+Sequel.extension :migration
+Sequel::Migrator.run(DB, File.join(ROOT, 'db/migrations'))
+require_relative '../app/importer'
+require_relative '../app/app'
+require 'rack/test'
+
+# --- assemble the combined post list -------------------------------------
+posts = JSON.parse(File.read(File.join(FIXTURE_ROOT, 'posts/your_posts_1.json')))
+
+extra_path = File.join(EXPLORATORY, 'posts.json')
+if File.exist?(extra_path)
+  posts += JSON.parse(File.read(extra_path))
+  warn "+ #{extra_path.sub("#{ROOT}/", '')}"
+else
+  warn "note: #{extra_path.sub("#{ROOT}/", '')} not found -- rendering committed fixture only"
+end
+
+# --- stage an export_root holding every referenced media file -----------
+staged = Dir.mktmpdir('exploratory-root')
+media_uris = posts.flat_map { |p| p['attachments'] || [] }
+                  .flat_map { |a| a['data'] || [] }
+                  .filter_map { |d| d.dig('media', 'uri') }
+
+media_uris.each do |uri|
+  real = File.join(EXPLORATORY, 'media', File.basename(uri))
+  stub = File.join(FIXTURE_ROOT, uri)
+  source = File.exist?(real) ? real : (File.exist?(stub) ? stub : nil)
+
+  unless source
+    warn "  missing media: #{uri}  (add spec/fixtures/exploratory/media/#{File.basename(uri)})"
+    next
+  end
+
+  dest = File.join(staged, uri)
+  FileUtils.mkdir_p(File.dirname(dest))
+  FileUtils.cp(source, dest)
+end
+
+# --- import + render through the real app ------------------------------
+Importer.import(posts, export_root: staged)
+
+session = Rack::Test::Session.new(Rack::MockSession.new(App))
+session.get '/', {}, 'HTTP_HOST' => 'localhost'
+html = session.last_response.body
+
+# --- inline served photos as data URIs --------------------------------
+MIME = { '.jpg' => 'image/jpeg', '.jpeg' => 'image/jpeg', '.png' => 'image/png',
+         '.gif' => 'image/gif', '.webp' => 'image/webp' }.freeze
+
+html = html.gsub(%r{src="/photos/([^"]+)"}) do
+  name = Regexp.last_match(1)
+  file = File.join(ENV['PHOTO_STORAGE_DIR'], File.basename(name))
+  next %(src="/photos/#{name}") unless File.exist?(file)
+
+  mime = MIME.fetch(File.extname(file).downcase, 'application/octet-stream')
+  %(src="data:#{mime};base64,#{Base64.strict_encode64(File.binread(file))}")
+end
+
+out = File.join(ROOT, 'tmp/exploratory_timeline.html')
+FileUtils.mkdir_p(File.dirname(out))
+File.write(out, html)
+warn "#{Post.count} posts, #{media_uris.size} photos"
+puts out

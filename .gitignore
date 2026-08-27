@@ -58,6 +58,11 @@ build-iPhoneSimulator/
 # Sample data (large, contains personal data — not for version control)
 /sample facebook export.zip
 
+# Exploratory-testing preview data (real personal posts/photos, cumulative
+# local-only sample rendered by bin/exploratory_preview). Not shared; a fork
+# populates its own. See the script's header for the layout.
+/spec/fixtures/exploratory/
+
 # Local dev/test SQLite databases
 /db/*.sqlite3
 
