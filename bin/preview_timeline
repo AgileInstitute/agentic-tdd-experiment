@@ -2,15 +2,24 @@
 # frozen_string_literal: true
 
 # Renders the current timeline as a static HTML file for quick manual
-# inspection, without starting a real server.
+# inspection, without starting a real server. Drives the same App and
+# `erb :index` path a real server would, via Rack::Test.
 #
 # Usage:
-#   bin/preview_timeline                  # render the current dev DB
-#   bin/preview_timeline path/to/export.json  # import a file first, then render
+#   bin/preview_timeline                             # render whatever is in the configured DB
+#   bin/preview_timeline <json_path> <export_root>   # import that export first, then render
+#
+# To preview a fixture in isolation, point at a throwaway in-memory DB:
+#   DATABASE_URL=sqlite::memory: bundle exec ruby bin/preview_timeline \
+#     spec/fixtures/export_root/posts/your_posts_1.json spec/fixtures/export_root
 
 require 'dotenv/load'
 require 'fileutils'
 require 'sequel'
+
+ENV['PHOTO_STORAGE_DIR'] ||= File.expand_path('../tmp/preview_photos', __dir__)
+FileUtils.mkdir_p(ENV['PHOTO_STORAGE_DIR'])
+
 require_relative '../app/db'
 
 Sequel.extension :migration
@@ -20,8 +29,12 @@ require_relative '../app/importer'
 require_relative '../app/app'
 require 'rack/test'
 
-import_path = ARGV[0]
-Importer.import_file(import_path) if import_path
+json_path, export_root = ARGV
+if json_path
+  abort 'usage: bin/preview_timeline <json_path> <export_root>' unless export_root
+
+  Importer.import_file(json_path, export_root)
+end
 
 session = Rack::Test::Session.new(Rack::MockSession.new(App))
 session.get '/', {}, 'HTTP_HOST' => 'localhost'
@@ -30,4 +43,4 @@ output_path = File.expand_path('../tmp/timeline.html', __dir__)
 FileUtils.mkdir_p(File.dirname(output_path))
 File.write(output_path, session.last_response.body)
 
-puts "Wrote #{output_path}"
+puts "Wrote #{output_path} (#{Post.count} posts)"
