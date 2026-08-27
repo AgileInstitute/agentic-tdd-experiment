@@ -53,8 +53,8 @@ A user can import a Facebook post that's just a shared link (no photo) and see i
   - A post whose only attachment is `external_context.url` imports with that URL
   - A link share with added commentary text imports both the text and the link
 
-- [ ] started
-- [ ] done
+- [x] started
+- [x] done
 
 ### 1.6 Import an auto-generated activity post
 Some exported posts have no `data[].post` text and no attachments — the entire content is Facebook's generated narration in `title` (e.g. "Rob Myers recommends The Hobbit."). We import these using `title` as the post text instead of skipping them.

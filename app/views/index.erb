@@ -3,6 +3,9 @@
   <% @posts.each do |post| %>
     <li>
       <%= post.posted_at.utc.strftime('%Y-%m-%d') %> &mdash; <%= post.text %>
+      <% unless post.link_url.empty? %>
+        <div><%= render_link(post) %></div>
+      <% end %>
       <% post.photos.each do |photo| %>
         <div>
           <img src="/photos/<%= File.basename(photo.path) %>" alt="<%= photo.caption %>">
