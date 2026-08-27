@@ -99,7 +99,7 @@ A user's Facebook export archive (a zip, already present on disk — e.g. via a 
 - [ ] done
 
 ### 1.10 Import and display a memory post
-Facebook's "On this day" memory feature re-posts an existing post as a new, independent export entry (marked by `title: "<name> shared a memory."`), duplicating the original post's photos and caption rather than referencing it. We import these and display both the re-post's own text (e.g. "Two years?!") and the original post's text/date, instead of the two showing up as unrelated duplicate posts.
+A "memory post" is a re-post of an older one, retaining the original's photos and caption text (its date present only as unparseable text) and adding an optional new text description with its own new post-date.
 - Examples:
   - A memory-repost entry (identified by its `title`) displays with its own re-post text alongside the original post's caption and date
   - The re-post's duplicated photos display once, not as a second unrelated copy of the same album
