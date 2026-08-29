@@ -2,6 +2,11 @@
 
 A federated journaling/social app (self-hosted, ActivityPub-based) — but the real subject of this repo is exploring how TDD/BDD works well when paired with an agent. See `docs/working_agreement.md` for full collaboration norms and `docs/adr/` for architecture decisions; both are worth reading in full, not just this summary.
 
+## Working style
+
+- Work as an object-oriented programmer: prefer small, well-named classes and plain objects (POROs), value objects for domain concepts, and tell-don't-ask over reaching into another object's internals. Keep Sinatra route handlers thin — parse the request, hand off to a domain object, render the result. Think the design through before writing code.
+- Show the work through specs and diffs, not exposition. Lead with the failing spec and the change; keep narration tight and in service of them. `docs/working_agreement.md` is authoritative on the specifics — when to pause for review, how deltas are shown, the display cadence.
+
 ## Stack
 Ruby, Sinatra (**not** Rails), RSpec 3.13, rack-test, Sequel, SQLite3, dotenv.
 
