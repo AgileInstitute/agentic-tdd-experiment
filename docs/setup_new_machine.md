@@ -1,8 +1,32 @@
 # Setting Up This Project on a New Machine
 
-Checklist for moving work on this repo to a different computer (e.g. same
-Anthropic account, different country). Split into what git already carries
-and what's local-only and needs to be redone or copied by hand.
+Checklist for moving work on this repo to a different computer: same
+Anthropic account, destination **Germany**, machine is a **Windows laptop**
+(current machine is a Mac). Split into what git already carries and what's
+local-only and needs to be redone or copied by hand.
+
+## Windows: use WSL2, not native Windows
+
+Strongly recommended over native PowerShell/CMD, because of this stack:
+
+- The `sqlite3` gem (via Sequel) needs native extensions compiled at
+  install time. This is routinely painful on native Windows (needs
+  RubyInstaller + the DevKit/MSYS2 toolchain, and version mismatches are a
+  common source of install failures) and much smoother under Linux.
+- `bin/exploratory_preview` and `bin/preview_timeline` are shebang
+  (`#!/usr/bin/env ruby`) scripts with no `.rb` extension — they won't run
+  directly from PowerShell/CMD (no shebang support, no extension to
+  associate with `ruby.exe`). They run as-is under WSL2.
+- Git line-ending behavior (`core.autocrlf`) is one less thing to think
+  about under WSL2, since the filesystem and line endings stay Unix-style
+  end to end.
+
+Install WSL2 (`wsl --install`, Ubuntu is the default distro), then do
+everything below — Ruby install, `bundle install`, Claude Code install,
+`git clone` — inside the WSL2 Linux environment rather than on the Windows
+side. Claude Code itself supports native Windows too, but running it inside
+the same WSL2 environment as the Ruby toolchain keeps paths and permissions
+consistent.
 
 ## Comes for free via git
 
@@ -25,14 +49,16 @@ itself.
       feedback (bash granularity, story numbering, diff format, etc.) lives
       at `~/.claude/projects/<project-path-hash>/memory/`, keyed off the
       repo's *absolute path*, not tracked in git.
-  - Clone the repo to the **same absolute path** on the new machine if at
-    all possible (same relative location under the home directory) — that's
-    what makes Claude Code resolve it to the same project hash.
-  - Copy the memory directory over (tar/zip it, transfer via a secure
-    channel — see below) into the equivalent path on the new machine.
-  - If the path can't match exactly (different username/OS), the memory
-    won't be found automatically; you'd be starting that project's memory
-    fresh unless it's manually placed under the new hash.
+  - Because this move also changes OS (Mac → Windows/WSL2), the absolute
+    path **cannot** match — it goes from `/Users/robmyers/Documents/...` to
+    something like `/home/<user>/...` under WSL2. There's no way to
+    preserve the project-hash match this time; it's not worth chasing.
+  - Instead: clone the repo, open Claude Code in it once (so it creates the
+    new project directory under `~/.claude/projects/` on the new machine),
+    then copy the memory `*.md` files and `MEMORY.md` from the old
+    machine's project memory directory into the new one. Transfer via a
+    secure channel — see `.env` below — since this is personal working
+    context, not secret, but still not for casual channels.
 
 - [ ] **`.claude/settings.local.json`** — gitignored, per-machine tool
       permissions allowlist. Recreate manually or copy the file over.
@@ -51,9 +77,15 @@ itself.
       posts/photos used by `bin/exploratory_preview`. Not meant to be
       shared; the new machine populates its own if needed.
 
-## Network considerations
+## Network considerations (Germany)
 
-No special Claude Code configuration is needed for a different country, but
-some countries restrict access to Anthropic's API/claude.ai. Check this once
-the destination is known — a VPN may be required. Not addressed further here
-since it depends on the specific location.
+No known restrictions on accessing Anthropic's API/claude.ai from Germany —
+it's within the EU with generally open access to US cloud services, so no
+VPN is expected to be needed for Claude Code itself. Worth a quick check
+once actually there, since policies can change, but nothing to pre-configure
+for this.
+
+GDPR is a live consideration for the *app* being built here (federated
+journaling/social, so EU personal data) — worth a story/ADR of its own if
+it isn't covered already, but that's a product concern, not a machine-setup
+one, so not expanded further in this doc.
