@@ -85,5 +85,13 @@
       }
     ],
     "title": "Rob Myers likes a link on The Interdependence Project."
+  },
+  {
+    "timestamp": 1400000000,
+    "data": [
+      { "post": "Finally posting about our trip to the coast." },
+      { "backdated_timestamp": 1391000000 }
+    ],
+    "title": "Rob Myers updated his status."
   }
 ]

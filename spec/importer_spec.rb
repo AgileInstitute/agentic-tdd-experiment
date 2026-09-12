@@ -294,14 +294,15 @@ RSpec.describe Importer do
     it 'reads a real export file and imports its posts, including photos' do
       Importer.import_file(json_path, export_root)
 
-      expect(Post.count).to eq(6)
+      expect(Post.count).to eq(7)
       expect(Post.order(:posted_at).map(&:text)).to eq([
         'is visiting Austin TX for the very first time!',
         'is practicing his KPFA radio spot for Zen Fest 2008',
         'Zen Fest 2008: Roy has a habit of taking pics of me eating...or am I always eating?',
         'One of the most awesome foods in the world was also a world traveler.',
         '',
-        'Mindful puking.'
+        'Mindful puking.',
+        'Finally posting about our trip to the coast.'
       ])
 
       photo_post = Post.first(text: 'Zen Fest 2008: Roy has a habit of taking pics of me eating...or am I always eating?')
