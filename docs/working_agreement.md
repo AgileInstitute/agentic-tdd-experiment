@@ -20,6 +20,8 @@ How we pair on this project — XP and Kanban practices, adapted for a human + C
 
 "NYT Headline" format: a short, memorable title, a description, and bulleted **examples** (deliberately not "acceptance criteria"). The headline implies the goal; the description describes the capability. No Connextra template ("As a &lt;persona&gt;, I want &lt;ability&gt;, so that &lt;goal&gt;") — if a specific persona matters, name them directly in the headline or description instead (e.g. "Pete the Power User," "Bob the Beginner").
 
+Story descriptions justify themselves by the capability/intent for our users, not by reference to how a specific competing product does it — unless that product's actual behavior *is* the subject (e.g. Theme 1's Facebook Import stories, which are necessarily about Facebook's export format).
+
 ## TDD Loop
 
 - Stories are kept small enough to be the natural unit of work-in-progress.
