@@ -153,10 +153,9 @@ Users can install the app to their phone's home screen and launch it in an app-l
 - [ ] done
 
 ### 3.3 Correct a photo's date after import
-Facebook lets you manually change a photo's date after the fact; we should offer the same, since import can't always recover the real date (scanned-photo EXIF is often the scan date, not the capture date — see the South Korea 1995 album, where 12 of 14 photos read Dec 2018/Jan 2019 scan dates and only 2 carry the true 1995 dates).
+Users can set or correct a photo's date directly in the app (e.g. the South Korea 1995 album, where 12 of 14 photos read Dec 2018/Jan 2019 scan dates and only 2 carry the true 1995 dates).
 - Examples:
   - A user can open a photo and set or correct its date
-  - The correction is stored locally — no re-import from Facebook needed
   - Each photo in a multi-photo post/album can be corrected independently, since scan-date artifacts don't affect every photo in the album the same way
   - The corrected date is reflected wherever that photo's date displays
 
