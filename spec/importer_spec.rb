@@ -49,32 +49,35 @@ RSpec.describe Importer do
     end
 
     it 'uses backdated_timestamp for posted_at when the post has one' do
+      entered_at = 1400000000
+      actually_happened_at = 1391000000
       posts = [
         {
-          'timestamp' => 1400000000,
+          'timestamp' => entered_at,
           'data' => [
             { 'post' => 'Finally posting about our trip to the coast.' },
-            { 'backdated_timestamp' => 1391000000 }
+            { 'backdated_timestamp' => actually_happened_at }
           ]
         }
       ]
 
       Importer.import(posts)
 
-      expect(Post.first.posted_at).to eq(Time.at(1391000000))
+      expect(Post.first.posted_at).to eq(Time.at(actually_happened_at))
     end
 
     it 'falls back to timestamp for posted_at when there is no backdated_timestamp' do
+      posted_at = 1224121959
       posts = [
         {
-          'timestamp' => 1224121959,
+          'timestamp' => posted_at,
           'data' => [{ 'post' => 'is visiting Austin TX for the very first time!' }]
         }
       ]
 
       Importer.import(posts)
 
-      expect(Post.first.posted_at).to eq(Time.at(1224121959))
+      expect(Post.first.posted_at).to eq(Time.at(posted_at))
     end
 
     it 'imports multiple posts in one call, each with its own text and timestamp' do
