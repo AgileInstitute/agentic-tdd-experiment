@@ -71,8 +71,8 @@ When a post's `data` includes a `backdated_timestamp`, it reflects when the post
   - A post with both `timestamp` and `backdated_timestamp` displays using `backdated_timestamp`
   - A post with only `timestamp` displays using `timestamp`, as today
 
-- [ ] started
-- [ ] done
+- [x] started
+- [x] done
 
 ### 1.8 Guard imported posts against injected code
 Facebook export content is untrusted input — we neutralize it so nothing in a post's text, captions, or link commentary can execute as script (XSS) or manipulate our database (SQL injection) when imported and later displayed.

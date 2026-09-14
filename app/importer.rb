@@ -15,7 +15,7 @@ class Importer
       link ||= { url: '', name: '', source: '' }
       created = Post.create(
         text: text,
-        posted_at: Time.at(post['timestamp']),
+        posted_at: Time.at(extract_posted_at(post)),
         created_at: Time.now,
         link_url: link[:url],
         link_name: link[:name],
@@ -36,6 +36,12 @@ class Importer
 
     entry = data.find { |item| item.key?('post') }
     entry ? TextRepairer.repair(entry['post']) : ''
+  end
+
+  def self.extract_posted_at(post)
+    data = post['data']
+    entry = data.find { |item| item.key?('backdated_timestamp') } if data.is_a?(Array)
+    entry ? entry['backdated_timestamp'] : post['timestamp']
   end
 
   # Every `attachments[].data[]` entry across a post, flattened, with the
@@ -86,5 +92,6 @@ class Importer
     end
   end
 
-  private_class_method :extract_text, :attachment_items, :extract_photos, :extract_link, :store_photos
+  private_class_method :extract_text, :extract_posted_at, :attachment_items, :extract_photos, :extract_link,
+                        :store_photos
 end
